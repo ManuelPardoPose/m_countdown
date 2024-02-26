@@ -11,11 +11,17 @@ use termion::{color, clear, style, cursor};
 #[derive(Parser)]
 struct Args {
     /// The init minutes of the countdown
-    #[arg(short, long, default_value_t = 0)]
+    #[arg(short, long, default_value_t = 5)]
     min: i8,
     /// The init seconds of the countdown
-    #[arg(short, long, default_value_t = 20)]
+    #[arg(short, long, default_value_t = 0)]
     sec: i8,
+    /// Determines if the counter is supposed to bounce/move
+    #[arg(short, long, default_value_t = false)]
+    bounce: bool,
+    /// Determines if the counter is supposed to be ascii or not
+    #[arg(short, long, default_value_t = false)]
+    ascii_mode: bool,
 }
 
 struct Counter {
@@ -106,6 +112,9 @@ impl Counter {
                 self.vel[1] = -self.vel[1];
                 self.pos[1] = 1;
             }
+        } else {
+            self.pos[0] = (width / 2) as i16 - (self.curr_width / 2);
+            self.pos[1] = (height / 2) as i16 - (self.curr_height / 2);
         }
 
         //render
@@ -228,7 +237,7 @@ impl Counter {
 // run via:
 // cargo run -- --timer-start-time 123
 
-fn ascii_from_digit(input :char) -> Vec<(String, i16)> {
+fn ascii_from_digit(input: char) -> Vec<(String, i16)> {
     let mut ascii: Vec<(String, i16)> = Vec::new();
     if let Some(glyph) = BASIC_FONTS.get(input) {
         for x in &glyph {
@@ -237,7 +246,8 @@ fn ascii_from_digit(input :char) -> Vec<(String, i16)> {
             for bit in 0..8 {
                 match *x & 1 << bit {
                     0 => curr_line.push_str(" "),
-                    _ => curr_line.push_str("█"),
+                    //_ => curr_line.push_str("█"),
+                    _ => curr_line.push(input),
                 }
                 actual_length += 1;
             }
@@ -262,7 +272,7 @@ fn main() {
 
     // counter stuff
     let mut counter = Counter::new(
-        args.min, args.sec, true, true
+        args.min, args.sec, args.bounce, args.ascii_mode
     );
     let loop_wait_time = Duration::from_millis(1000 / fps);
 
