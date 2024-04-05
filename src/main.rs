@@ -1,7 +1,6 @@
-/*
-    author: Manuel Pardo Pose
-    version: 1.0
-*/
+// This Rust program implements a terminal countdown.
+// author: Manuel Pardo Pose
+// version: 1.0
 
 use std::{time::Duration, thread, string::String};
 use clap::Parser;
