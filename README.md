@@ -1,6 +1,11 @@
-# M_COUNTDOWN
+# m_countdown
 
-## Author: Manuel Pardo Pose
+## Author
+    Manuel Pardo Pose
+
+## What is this?
+    This is a CLI Application that provides a customizable countdown
+    which is supposed to be lightweight and presentable.
 
 ## How to build:
 #### First:
