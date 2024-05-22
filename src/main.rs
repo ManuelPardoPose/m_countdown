@@ -18,7 +18,7 @@ struct Args {
     /// Determines if the counter is supposed to bounce/move
     #[arg(short, long, default_value_t = false)]
     bounce: bool,
-    /// Determines if the counter is supposed to be ascii or not
+    /// Determines if the counter is supposed to be ascii art
     #[arg(short, long, default_value_t = false)]
     ascii_mode: bool,
 }
@@ -257,19 +257,14 @@ fn ascii_from_digit(input: char) -> Vec<(String, i16)> {
 }
 
 fn main() {
-    // args get parsed
     let args = Args::parse();
 
-    // terminal stuff
     let mut term_size = termion::terminal_size().unwrap();
-    let mut width = term_size.0;
-    let mut height = term_size.1;
+    let (mut width, mut height) = term_size;
 
-    // some values
     let fps = 15;
     let mut frame_count: u64 = 0;
 
-    // counter stuff
     let mut counter = Counter::new(
         args.min, args.sec, args.bounce, args.ascii_mode
     );
@@ -278,7 +273,6 @@ fn main() {
     counter.render(width, height);
 
     while !counter.is_finished() {
-        //counter manipulation
         if counter.is_counting() && frame_count%fps == 0 {
             counter.decrement();
         }
