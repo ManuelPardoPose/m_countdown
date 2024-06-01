@@ -1,5 +1,5 @@
 use termion::{clear, color::{self}, cursor, style};
-use crate::{models::config::Config, util::ascii_utils};
+use crate::{models::{config::Config, style::CharStyle}, util::ascii_utils};
 
 pub struct Counter {
     minutes: i8,
@@ -14,6 +14,8 @@ pub struct Counter {
 
     curr_width: i16,
     curr_height: i16,
+
+    char_style: CharStyle,
 }
 
 impl Counter {
@@ -22,7 +24,8 @@ impl Counter {
         seconds: i8,
         bouncing: bool,
         beautify: bool,
-        vel: Vec<i16>
+        vel: Vec<i16>,
+        char_style: CharStyle,
     ) -> Self {
         let instance = Self {
             minutes,
@@ -34,6 +37,7 @@ impl Counter {
             beautify,
             curr_width: 0,
             curr_height: 0,
+            char_style,
         };
         return instance;
     }
@@ -155,8 +159,14 @@ impl Counter {
             true => {
                 let first_digit = self.minutes / 10;
                 let second_digit = self.minutes % 10;
-                minutes_vec = ascii_utils::ascii_from_digit(char::from_digit(first_digit as u32, 10).unwrap());
-                let second_ascii = ascii_utils::ascii_from_digit(char::from_digit(second_digit as u32, 10).unwrap());
+                minutes_vec = ascii_utils::ascii_from_digit(
+                    char::from_digit(first_digit as u32, 10).unwrap(),
+                    &self.char_style
+                );
+                let second_ascii = ascii_utils::ascii_from_digit(
+                    char::from_digit(second_digit as u32, 10).unwrap(),
+                    &self.char_style
+                );
                 for line_num in 0..minutes_vec.len() {
                     minutes_vec[line_num].0.push_str(&second_ascii[line_num].0);
                     minutes_vec[line_num].1 += second_ascii[line_num].1
@@ -181,8 +191,14 @@ impl Counter {
             true => {
                 let first_digit = self.seconds / 10;
                 let second_digit = self.seconds % 10;
-                seconds_vec = ascii_utils::ascii_from_digit(char::from_digit(first_digit as u32, 10).unwrap());
-                let second_ascii = ascii_utils::ascii_from_digit(char::from_digit(second_digit as u32, 10).unwrap());
+                seconds_vec = ascii_utils::ascii_from_digit(
+                    char::from_digit(first_digit as u32, 10).unwrap(),
+                    &self.char_style
+                );
+                let second_ascii = ascii_utils::ascii_from_digit(
+                    char::from_digit(second_digit as u32, 10).unwrap(),
+                    &self.char_style
+                );
                 for line_num in 0..seconds_vec.len() {
                     seconds_vec[line_num].0.push_str(&second_ascii[line_num].0);
                     seconds_vec[line_num].1 += second_ascii[line_num].1
@@ -205,7 +221,7 @@ impl Counter {
         let mut separator_vec: Vec<(String, i16)>;
         match self.beautify {
             true => {
-                separator_vec = ascii_utils::ascii_from_digit(':')
+                separator_vec = ascii_utils::ascii_from_digit(':', &self.char_style)
             },
             false => {
                 separator_vec = Vec::new();

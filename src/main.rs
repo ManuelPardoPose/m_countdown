@@ -4,7 +4,7 @@
 
 use std::{time::Duration, thread, string::String};
 use clap::Parser;
-use m_countdown::models::{config::{Config, RgbCol}, counter::Counter};
+use m_countdown::models::{config::{Config, RgbCol}, counter::Counter, style::CharStyle};
 
 #[derive(Parser)]
 struct Args {
@@ -32,6 +32,9 @@ struct Args {
     /// The velocity of the counter
     #[arg(short = 'v', long, default_value_t = String::new())]
     vel: String,
+    /// Style of the filling chars (0 -> Solid, 1 -> Numbers, 2 -> Random)
+    #[arg(short = 'c', long, default_value_t = 0)]
+    char_style: u8,
 }
 
 fn main() {
@@ -49,6 +52,12 @@ fn main() {
         args.bounce,
         args.ascii_mode,
         parse_vel(&args.vel).unwrap_or(vec![1,1]),
+        match args.char_style {
+            0 => CharStyle::Solid,
+            1 => CharStyle::Numbers,
+            2 => CharStyle::Random,
+            _ => CharStyle::Numbers
+        }
     );
 
     let col1: RgbCol = match parse_rgb(&args.col1) {
