@@ -154,44 +154,20 @@ impl Counter {
     }
 
     fn format_minutes(&self) -> Vec<(String, i16)> {
-        let mut minutes_vec: Vec<(String, i16)>;
-        match self.beautify {
-            true => {
-                let first_digit = self.minutes / 10;
-                let second_digit = self.minutes % 10;
-                minutes_vec = ascii_utils::ascii_from_digit(
-                    char::from_digit(first_digit as u32, 10).unwrap(),
-                    &self.char_style
-                );
-                let second_ascii = ascii_utils::ascii_from_digit(
-                    char::from_digit(second_digit as u32, 10).unwrap(),
-                    &self.char_style
-                );
-                for line_num in 0..minutes_vec.len() {
-                    minutes_vec[line_num].0.push_str(&second_ascii[line_num].0);
-                    minutes_vec[line_num].1 += second_ascii[line_num].1
-                }
-            },
-            false => {
-                minutes_vec = Vec::new();
-                let mut minutes_str: String = String::from("");
-                if self.minutes < 10 {
-                    minutes_str.push_str("0");
-                }
-                minutes_str.push_str(&self.minutes.to_string());
-                minutes_vec.push((minutes_str, 2))
-            }
-        }
-        return minutes_vec;
+        self.format_digits_helper(self.minutes)
     }
 
     fn format_seconds(&self) -> Vec<(String, i16)> {
-        let mut seconds_vec: Vec<(String, i16)>;
+        self.format_digits_helper(self.seconds)
+    }
+
+    fn format_digits_helper(&self, number: i8) -> Vec<(String, i16)>{
+        let mut digits_vec: Vec<(String, i16)>;
         match self.beautify {
             true => {
-                let first_digit = self.seconds / 10;
-                let second_digit = self.seconds % 10;
-                seconds_vec = ascii_utils::ascii_from_digit(
+                let first_digit = number / 10;
+                let second_digit = number % 10;
+                digits_vec = ascii_utils::ascii_from_digit(
                     char::from_digit(first_digit as u32, 10).unwrap(),
                     &self.char_style
                 );
@@ -199,22 +175,22 @@ impl Counter {
                     char::from_digit(second_digit as u32, 10).unwrap(),
                     &self.char_style
                 );
-                for line_num in 0..seconds_vec.len() {
-                    seconds_vec[line_num].0.push_str(&second_ascii[line_num].0);
-                    seconds_vec[line_num].1 += second_ascii[line_num].1
+                for line_num in 0..digits_vec.len() {
+                    digits_vec[line_num].0.push_str(&second_ascii[line_num].0);
+                    digits_vec[line_num].1 += second_ascii[line_num].1
                 }
             },
             false => {
-                seconds_vec = Vec::new();
+                digits_vec = Vec::new();
                 let mut seconds_str: String = String::from("");
-                if self.seconds < 10 {
+                if number < 10 {
                     seconds_str.push_str("0");
                 }
-                seconds_str.push_str(&self.seconds.to_string());
-                seconds_vec.push((seconds_str, 2))
+                seconds_str.push_str(&number.to_string());
+                digits_vec.push((seconds_str, 2))
             }
         }
-        return seconds_vec;
+        return digits_vec;
     }
 
     fn format_separator(&self) -> Vec<(String, i16)> {
