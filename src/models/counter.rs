@@ -17,7 +17,13 @@ pub struct Counter {
 }
 
 impl Counter {
-    pub fn new(minutes: i8, seconds: i8, bouncing: bool, beautify: bool, vel: Vec<i16>) -> Self {
+    pub fn new(
+        minutes: i8,
+        seconds: i8,
+        bouncing: bool,
+        beautify: bool,
+        vel: Vec<i16>
+    ) -> Self {
         let instance = Self {
             minutes,
             seconds,
