@@ -7,6 +7,9 @@
     This is a CLI Application that provides a customizable countdown
     which is supposed to be lightweight and presentable.
 
+## Screenshots
+![Example Screenshot 1](screenshots/screenshot1.png)
+
 ## How to build:
 #### First:
 
