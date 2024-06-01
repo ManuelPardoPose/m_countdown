@@ -1,5 +1,5 @@
-use termion::{cursor, color, style, clear};
-use crate::util::ascii_utils;
+use termion::{clear, color::{self}, cursor, style};
+use crate::{models::config::Config, util::ascii_utils};
 
 pub struct Counter {
     minutes: i8,
@@ -27,7 +27,7 @@ impl Counter {
             counting: true,
             beautify,
             curr_width: 0,
-            curr_height: 0
+            curr_height: 0,
         };
         return instance;
     }
@@ -65,7 +65,7 @@ impl Counter {
         self.pos = new_pos;
     }
 
-    pub fn render(&mut self, width: u16, height: u16) {
+    pub fn render(&mut self, width: u16, height: u16, config: &Config) {
         // if timer is supposed to move
         if self.bouncing {
             // move
@@ -100,19 +100,18 @@ impl Counter {
 
         let clear_all = clear::All;
         let bold = style::Bold;
-        let red = color::Fg(color::Red);
-        let green = color::Fg(color::Green);
-        let blue = color::Fg(color::Blue);
+        // let colors = config.get_colors();
+        let (col1, col2, col3) = config.get_colors();
 
         println!("{}", clear_all);
 
         let minutes_formatted = self.format_minutes();
         for line_num in 0..minutes_formatted.len() {
             println!("{}{}{}{}",
-                     cursor::Goto(x, y + line_num as u16),
-                     bold,
-                     red,
-                     minutes_formatted[line_num].0
+                cursor::Goto(x, y + line_num as u16),
+                bold,
+                color::Fg(color::Rgb(col1.0, col1.1, col1.2)),
+                minutes_formatted[line_num].0
             );
         }
 
@@ -122,7 +121,7 @@ impl Counter {
                 "{}{}{}{}",
                 cursor::Goto(x + minutes_formatted[0].1 as u16, y + line_num as u16),
                 bold,
-                blue,
+                color::Fg(color::Rgb(col2.0, col2.1, col2.2)),
                 separator_formatted[line_num].0
             );
         }
@@ -133,7 +132,7 @@ impl Counter {
                 "{}{}{}{}",
                 cursor::Goto(x + minutes_formatted[0].1 as u16 + separator_formatted[0].1 as u16, y + line_num as u16),
                 bold,
-                green,
+                color::Fg(color::Rgb(col3.0, col3.1, col3.2)),
                 seconds_formatted[line_num].0
             );
         }
