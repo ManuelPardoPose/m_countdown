@@ -19,21 +19,9 @@
 
     or
 
-    cargo run -- --min 2
+    cargo run -- -h
 
     or
 
-    cargo run -- --min 2 --sec 10
-
-    or
-
-    cargo run -- --min 2 --sec 10 --bounce
-
-    or
-
-    cargo run -- --min 2 --sec 10 --ascii-mode
-
-    or
-
-    cargo run -- --bounce --ascii-mode
+    cargo run -- -m 4 -s 20 -b -a --col1 200,100,20 --col2 255,0,0 --col3 50,50,200
 
