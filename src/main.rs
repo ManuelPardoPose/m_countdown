@@ -29,6 +29,9 @@ struct Args {
     /// Overwrites the third color (RGB separated by colon)
     #[arg(long, default_value_t = String::new())]
     col3: String,
+    /// The velocity of the counter
+    #[arg(short = 'v', long, default_value_t = String::new())]
+    vel: String,
 }
 
 fn main() {
@@ -41,7 +44,7 @@ fn main() {
     let mut frame_count: u64 = 0;
 
     let mut counter = Counter::new(
-        args.min, args.sec, args.bounce, args.ascii_mode
+        args.min, args.sec, args.bounce, args.ascii_mode, parse_vel(&args.vel).unwrap_or(vec![1,1]),
     );
 
     let col1: RgbCol = match parse_rgb(&args.col1) {
@@ -79,7 +82,6 @@ fn main() {
     thread::sleep(end_wait_duration);
 }
 
-// Format: rrr,ggg,bbb
 fn parse_rgb(input_str: &String) -> Option<RgbCol> {
     if input_str.len() <= 0 {
         return None;
@@ -90,4 +92,16 @@ fn parse_rgb(input_str: &String) -> Option<RgbCol> {
         return None
     }
     Some(RgbCol(*rgb.get(0).unwrap(), *rgb.get(1).unwrap(), *rgb.get(2).unwrap()))
+}
+
+fn parse_vel(input_str: &String) -> Option<Vec<i16>> {
+    if input_str.len() <= 0 {
+        return None;
+    }
+    let split_input: Vec<&str> = input_str.split(",").into_iter().collect();
+    let vel: Vec<i16> = split_input.iter().map(|x| x.parse::<i16>()).filter(|x| x.is_ok()).map(|x| x.unwrap()).collect();
+    if vel.len() != 2 {
+        return None
+    }
+    Some(vel)
 }

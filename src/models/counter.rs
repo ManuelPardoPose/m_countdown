@@ -17,12 +17,12 @@ pub struct Counter {
 }
 
 impl Counter {
-    pub fn new(minutes: i8, seconds: i8, bouncing: bool, beautify: bool) -> Self {
+    pub fn new(minutes: i8, seconds: i8, bouncing: bool, beautify: bool, vel: Vec<i16>) -> Self {
         let instance = Self {
             minutes,
             seconds,
             pos: Vec::from([1, 1]),
-            vel: Vec::from([1, 1]),
+            vel,
             bouncing,
             counting: true,
             beautify,
