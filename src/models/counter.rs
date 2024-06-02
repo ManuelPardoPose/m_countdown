@@ -110,7 +110,7 @@ impl Counter {
 
         let clear_all = clear::All;
         let bold = style::Bold;
-        // let colors = config.get_colors();
+
         let (col1, col2, col3) = config.get_colors();
 
         println!("{}", clear_all);
