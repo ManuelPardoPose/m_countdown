@@ -20,21 +20,23 @@
 
     cargo run --
 
-    or
+or
 
     cargo run -- -h
 
-    or
+or
 
     cargo run -- -m 4 -s 20 -b -a --col1 191,97,106 --col2 163,190,188 --col3 180,142,173 -v 3,1 -c 2
 
 ## Explanation of Parameters
-#### -m / --min         =>  Sets the amount of minutes the timer starts at
-#### -s / --sec         =>  Sets the amount of seconds the timer starts at
-#### -b / --bounce      =>  If set to true the counter will bounce
-#### --col1             =>  Sets the rgb value of the counters left part
-#### --col2             =>  Sets the rgb value of the counters middle part
-#### --col3             =>  Sets the rgb value of the counters right part
-#### -v / --vel         =>  Sets the velocity vector of the counter
-#### -c / --char-style  =>  Sets the drawing style of the counter
-#### -h / --help        =>  Prints help for the commands
+|Flag               |Description                                    |
+|:-                 |:-                                             |
+|-m / --min         |Sets the amount of minutes the timer starts at |
+|-s / --sec         |Sets the amount of seconds the timer starts at |
+|-b / --bounce      |If set to true the counter will bounce         |
+|--col1             |Sets the rgb value of the counters left part   |
+|--col2             |Sets the rgb value of the counters middle part |
+|--col3             |Sets the rgb value of the counters right part  |
+|-v / --vel         |Sets the velocity vector of the counter        |
+|-c / --char-style  |Sets the drawing style of the counter          |
+|-h / --help        |Prints help for the commands                   |
