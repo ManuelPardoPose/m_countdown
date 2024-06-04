@@ -8,8 +8,13 @@ pub fn ascii_from_digit(digit: char, char_style: &CharStyle) -> Vec<(String, i16
     let mut styled_digit: char = match char_style {
         CharStyle::Numbers => digit,
         CharStyle::Solid => '█',
+        CharStyle::Small => digit,
         _ => '█'
     };
+    if let CharStyle::Small = char_style {
+        ascii.push((String::from(styled_digit), 1));
+        return ascii;
+    }
     if let Some(glyph) = BASIC_FONTS.get(digit) {
         for x in &glyph {
             let mut curr_line:String = String::new();

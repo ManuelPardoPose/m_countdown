@@ -17,9 +17,6 @@ struct Args {
     /// Determines if the counter is supposed to bounce/move
     #[arg(short = 'b', long, default_value_t = false)]
     bounce: bool,
-    /// Determines if the counter is supposed to be ascii art
-    #[arg(short = 'a', long, default_value_t = false)]
-    ascii_mode: bool,
     /// Overwrites the first color (RGB separated by colon)
     #[arg(long, default_value_t = String::new())]
     col1: String,
@@ -32,7 +29,7 @@ struct Args {
     /// The velocity of the counter
     #[arg(short = 'v', long, default_value_t = String::new())]
     vel: String,
-    /// Style of the filling chars (0 -> Solid, 1 -> Numbers, 2 -> Random)
+    /// Style of the filling chars (0 -> Solid, 1 -> Numbers, 2 -> Random, 3 -> Small)
     #[arg(short = 'c', long, default_value_t = 0)]
     char_style: u8,
 }
@@ -50,13 +47,13 @@ fn main() {
         args.min,
         args.sec,
         args.bounce,
-        args.ascii_mode,
         parse_vel(&args.vel).unwrap_or(vec![1,1]),
         match args.char_style {
             0 => CharStyle::Solid,
             1 => CharStyle::Numbers,
             2 => CharStyle::Random,
-            _ => CharStyle::Numbers
+            3 => CharStyle::Small,
+            _ => CharStyle::Solid
         }
     );
 
