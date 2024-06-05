@@ -21,7 +21,7 @@ pub fn ascii_from_digit(digit: char, char_style: &CharStyle) -> Vec<(String, i16
             let mut actual_length: i16 = 0;
             for bit in 0..8 {
                 if let CharStyle::Random = char_style {
-                    styled_digit = (0x20u8 + (random::<f32>() * 96.0) as u8) as char;
+                    styled_digit = random_char_from_charpool();
                 }
                 match *x & 1 << bit {
                     0 => curr_line.push_str(" "),
@@ -33,4 +33,11 @@ pub fn ascii_from_digit(digit: char, char_style: &CharStyle) -> Vec<(String, i16
         }
     }
     return ascii;
+}
+
+fn random_char_from_charpool() -> char {
+    let index = (random::<f32>() * 190.0) as u8;
+    if index <= 94 { return (0x20u8 + index) as char; }
+    else if index <= 189 { return (0xA1u8 + (index - 95)) as char; }
+    return 0x20u8 as char;
 }
