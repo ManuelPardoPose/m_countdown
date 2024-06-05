@@ -122,22 +122,24 @@ impl Counter {
             );
         }
 
+        let mut offset = minutes_formatted[0].1 as u16;
         let separator_formatted = self.format_separator();
         for line_num in 0..separator_formatted.len() {
             println!(
                 "{}{}{}{}",
-                cursor::Goto(x + minutes_formatted[0].1 as u16, y + line_num as u16),
+                cursor::Goto(x + offset, y + line_num as u16),
                 bold,
                 color::Fg(color::Rgb(col2.0, col2.1, col2.2)),
                 separator_formatted[line_num].0
             );
         }
 
+        offset += separator_formatted[0].1 as u16;
         let seconds_formatted = self.format_seconds();
         for line_num in 0..seconds_formatted.len() {
             println!(
                 "{}{}{}{}",
-                cursor::Goto(x + minutes_formatted[0].1 as u16 + separator_formatted[0].1 as u16, y + line_num as u16),
+                cursor::Goto(x + offset, y + line_num as u16),
                 bold,
                 color::Fg(color::Rgb(col3.0, col3.1, col3.2)),
                 seconds_formatted[line_num].0
