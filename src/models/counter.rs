@@ -79,6 +79,13 @@ impl Counter {
         self.pos = new_pos;
     }
 
+    pub fn center(&mut self, width: i16, height: i16) {
+        self.set_pos((
+            (width / 2) - (self.curr_width / 2),
+            (height / 2) - (self.curr_height / 2),
+        ))
+    }
+
     pub fn render(&mut self, width: u16, height: u16, config: &Config) {
         // if timer is supposed to move
         if self.bouncing {
@@ -104,8 +111,7 @@ impl Counter {
                 self.pos.1 = 1;
             }
         } else {
-            self.pos.0 = (width / 2) as i16 - (self.curr_width / 2);
-            self.pos.1 = (height / 2) as i16 - (self.curr_height / 2);
+            self.center(width as i16, height as i16);
         }
 
         //render

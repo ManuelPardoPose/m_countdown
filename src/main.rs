@@ -79,6 +79,11 @@ fn main() {
 
     let loop_wait_time = Duration::from_millis(1000 / fps);
 
+    // Center the counter.
+    // The first render calculates the width and height
+    // which is needed for the centering
+    counter.render(width, height, &config);
+    counter.center(width as i16, height as i16);
     counter.render(width, height, &config);
 
     while !counter.is_finished() {
