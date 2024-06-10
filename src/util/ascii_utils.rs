@@ -1,4 +1,4 @@
-use font8x8::{BASIC_FONTS, UnicodeFonts};
+use font8x8::{UnicodeFonts, BASIC_FONTS};
 use rand::random;
 
 use crate::models::style::CharStyle;
@@ -9,7 +9,7 @@ pub fn ascii_from_digit(digit: char, char_style: &CharStyle) -> Vec<(String, i16
         CharStyle::Numbers => digit,
         CharStyle::Solid => '█',
         CharStyle::Small => digit,
-        _ => '█'
+        _ => '█',
     };
     if let CharStyle::Small = char_style {
         ascii.push((String::from(styled_digit), 1));
@@ -17,7 +17,7 @@ pub fn ascii_from_digit(digit: char, char_style: &CharStyle) -> Vec<(String, i16
     }
     if let Some(glyph) = BASIC_FONTS.get(digit) {
         for x in &glyph {
-            let mut curr_line:String = String::new();
+            let mut curr_line: String = String::new();
             let mut actual_length: i16 = 0;
             for bit in 0..8 {
                 if let CharStyle::Random = char_style {
@@ -37,7 +37,10 @@ pub fn ascii_from_digit(digit: char, char_style: &CharStyle) -> Vec<(String, i16
 
 fn random_char_from_charpool() -> char {
     let index = (random::<f32>() * 190.0) as u8;
-    if index <= 94 { return (0x20u8 + index) as char; }
-    else if index <= 189 { return (0xA1u8 + (index - 95)) as char; }
+    if index <= 94 {
+        return (0x20u8 + index) as char;
+    } else if index <= 189 {
+        return (0xA1u8 + (index - 95)) as char;
+    }
     return 0x20u8 as char;
 }

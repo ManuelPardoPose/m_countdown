@@ -11,11 +11,7 @@ pub struct InvalidColorName {}
 
 impl Config {
     pub fn new(col1: RgbCol, col2: RgbCol, col3: RgbCol) -> Self {
-        Self {
-            col1,
-            col2,
-            col3
-        }
+        Self { col1, col2, col3 }
     }
 
     pub fn get_colors(&self) -> (&RgbCol, &RgbCol, &RgbCol) {

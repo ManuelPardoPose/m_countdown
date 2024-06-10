@@ -1,5 +1,12 @@
-use termion::{clear, color::{self}, cursor, style};
-use crate::{models::{config::Config, style::CharStyle}, util::ascii_utils};
+use crate::{
+    models::{config::Config, style::CharStyle},
+    util::ascii_utils,
+};
+use termion::{
+    clear,
+    color::{self},
+    cursor, style,
+};
 
 pub struct Counter {
     minutes: i8,
@@ -114,7 +121,8 @@ impl Counter {
 
         let minutes_formatted = self.format_minutes();
         for line_num in 0..minutes_formatted.len() {
-            println!("{}{}{}{}",
+            println!(
+                "{}{}{}{}",
                 cursor::Goto(x, y + line_num as u16),
                 bold,
                 color::Fg(color::Rgb(col1.0, col1.1, col1.2)),
@@ -146,7 +154,8 @@ impl Counter {
             );
         }
 
-        self.curr_width = minutes_formatted[0].1 + separator_formatted[0].1 + seconds_formatted[0].1;
+        self.curr_width =
+            minutes_formatted[0].1 + separator_formatted[0].1 + seconds_formatted[0].1;
         self.curr_height = minutes_formatted.len() as i16;
 
         return;
@@ -160,17 +169,17 @@ impl Counter {
         self.format_digits_helper(self.seconds)
     }
 
-    fn format_digits_helper(&self, number: i8) -> Vec<(String, i16)>{
+    fn format_digits_helper(&self, number: i8) -> Vec<(String, i16)> {
         let mut digits_vec: Vec<(String, i16)>;
         let first_digit = number / 10;
         let second_digit = number % 10;
         digits_vec = ascii_utils::ascii_from_digit(
             char::from_digit(first_digit as u32, 10).unwrap(),
-            &self.char_style
+            &self.char_style,
         );
         let second_ascii = ascii_utils::ascii_from_digit(
             char::from_digit(second_digit as u32, 10).unwrap(),
-            &self.char_style
+            &self.char_style,
         );
         for line_num in 0..digits_vec.len() {
             digits_vec[line_num].0.push_str(&second_ascii[line_num].0);
