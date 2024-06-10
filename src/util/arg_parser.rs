@@ -21,7 +21,7 @@ pub fn parse_rgb(input_str: &String) -> Option<RgbCol> {
     ))
 }
 
-pub fn parse_vel(input_str: &String) -> Option<Vec<i16>> {
+pub fn parse_vel(input_str: &String) -> Option<(i16, i16)> {
     if input_str.len() <= 0 {
         return None;
     }
@@ -35,7 +35,7 @@ pub fn parse_vel(input_str: &String) -> Option<Vec<i16>> {
     if vel.len() != 2 {
         return None;
     }
-    Some(vel)
+    Some((vel[0], vel[1]))
 }
 
 pub fn parse_sec(input_sec: &i8) -> i8 {

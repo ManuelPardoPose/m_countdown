@@ -12,8 +12,8 @@ pub struct Counter {
     minutes: i8,
     seconds: i8,
 
-    pos: Vec<i16>,
-    vel: Vec<i16>,
+    pos: (i16, i16),
+    vel: (i16, i16),
 
     bouncing: bool,
     counting: bool,
@@ -29,13 +29,13 @@ impl Counter {
         minutes: i8,
         seconds: i8,
         bouncing: bool,
-        vel: Vec<i16>,
+        vel: (i16, i16),
         char_style: CharStyle,
     ) -> Self {
         let instance = Self {
             minutes,
             seconds,
-            pos: Vec::from([1, 1]),
+            pos: (1, 1),
             vel,
             bouncing,
             counting: true,
@@ -72,8 +72,8 @@ impl Counter {
         }
     }
 
-    pub fn set_pos(&mut self, new_pos: Vec<i16>) {
-        if new_pos[0] < 1 || new_pos[1] < 1 {
+    pub fn set_pos(&mut self, new_pos: (i16, i16)) {
+        if new_pos.0 < 1 || new_pos.1 < 1 {
             return;
         }
         self.pos = new_pos;
@@ -83,34 +83,34 @@ impl Counter {
         // if timer is supposed to move
         if self.bouncing {
             // move
-            self.pos[0] = self.pos[0] + self.vel[0];
-            self.pos[1] = self.pos[1] + self.vel[1];
+            self.pos.0 = self.pos.0 + self.vel.0;
+            self.pos.1 = self.pos.1 + self.vel.1;
 
             // bounds check (made it complicated because of goto safety)
-            if self.pos[0] > width as i16 - self.curr_width {
-                self.vel[0] = -self.vel[0];
-                self.pos[0] = width as i16 - self.curr_width;
+            if self.pos.0 > width as i16 - self.curr_width {
+                self.vel.0 = -self.vel.0;
+                self.pos.0 = width as i16 - self.curr_width;
             }
-            if self.pos[0] < 1 {
-                self.vel[0] = -self.vel[0];
-                self.pos[0] = 1;
+            if self.pos.0 < 1 {
+                self.vel.0 = -self.vel.0;
+                self.pos.0 = 1;
             }
-            if self.pos[1] > height as i16 - self.curr_height {
-                self.vel[1] = -self.vel[1];
-                self.pos[1] = height as i16 - self.curr_height;
+            if self.pos.1 > height as i16 - self.curr_height {
+                self.vel.1 = -self.vel.1;
+                self.pos.1 = height as i16 - self.curr_height;
             }
-            if self.pos[1] < 1 {
-                self.vel[1] = -self.vel[1];
-                self.pos[1] = 1;
+            if self.pos.1 < 1 {
+                self.vel.1 = -self.vel.1;
+                self.pos.1 = 1;
             }
         } else {
-            self.pos[0] = (width / 2) as i16 - (self.curr_width / 2);
-            self.pos[1] = (height / 2) as i16 - (self.curr_height / 2);
+            self.pos.0 = (width / 2) as i16 - (self.curr_width / 2);
+            self.pos.1 = (height / 2) as i16 - (self.curr_height / 2);
         }
 
         //render
-        let x = self.pos[0] as u16;
-        let y = self.pos[1] as u16;
+        let x = self.pos.0 as u16;
+        let y = self.pos.1 as u16;
 
         let clear_all = clear::All;
         let bold = style::Bold;

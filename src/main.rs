@@ -52,7 +52,7 @@ fn main() {
         args.min,
         parse_sec(&args.sec),
         args.bounce,
-        parse_vel(&args.vel).unwrap_or(vec![1, 1]),
+        parse_vel(&args.vel).unwrap_or((1, 1)),
         match args.char_style {
             0 => CharStyle::Solid,
             1 => CharStyle::Numbers,
