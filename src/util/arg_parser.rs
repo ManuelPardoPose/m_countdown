@@ -37,3 +37,12 @@ pub fn parse_vel(input_str: &String) -> Option<Vec<i16>> {
     }
     Some(vel)
 }
+
+pub fn parse_sec(input_sec: &i8) -> i8 {
+    if *input_sec <= 0 {
+        return 0;
+    } else if *input_sec >= 59 {
+        return 59;
+    }
+    *input_sec
+}

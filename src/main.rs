@@ -8,7 +8,7 @@ use m_countdown::models::{
     counter::Counter,
     style::CharStyle,
 };
-use m_countdown::util::arg_parser::{parse_rgb, parse_vel};
+use m_countdown::util::arg_parser::{parse_rgb, parse_sec, parse_vel};
 use std::{string::String, thread, time::Duration};
 
 #[derive(Parser)]
@@ -50,7 +50,7 @@ fn main() {
 
     let mut counter = Counter::new(
         args.min,
-        args.sec,
+        parse_sec(&args.sec),
         args.bounce,
         parse_vel(&args.vel).unwrap_or(vec![1, 1]),
         match args.char_style {
